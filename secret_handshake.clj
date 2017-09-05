@@ -1,15 +1,9 @@
 (ns secret-handshake)
 
-(def cmds {
-    1 "wink"
-    2 "double blink"
-    4 "close your eyes"
-    8 "jump"
-})
+(def cmds [ "wink" "double blink" "close your eyes" "jump" ])
 
 (defn commands [n]
     ((if (bit-test n 4) reverse identity)
-    (->> cmds
-         keys
-         (map #(cmds (bit-and n %)))
-         (remove nil?))))
+    (->> (range 4)
+         (filter #(bit-test n %))
+         (map cmds))))
